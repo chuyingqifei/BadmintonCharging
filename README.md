@@ -1,23 +1,26 @@
-# BadmintonCharging
-题目：羽毛球馆
-ThoughtWork家庭作业部分
-题目：
-小明是一个羽毛球场馆的管理员，管理着四个羽毛球场地（A，B，C，D场地），负责场地的维护和预订工
-作。为了简化自己的工作，场地只接受整点预订，预订以小时为单位。
-羽毛球馆的收费标准如下：
-周一到周五：
-9:00  ~ 12:00 30元/时
-12:00 ~ 18:00 50元/时
-18:00 ~ 20:00 80元/时
-20:00 ~ 22:00 60元/时
-周六周日：
-9:00  ~ 12:00 40元/时
-12:00 ~ 18:00 50元/时
-18:00 ~ 22:00 60元/时
-羽毛球馆在预订之后，可以接受取消预定，不过取消预订需要交违约金，违约金的计算规则
-如下：
-周一到周五的预订取消收取全部费用的50%作为违约金
-周六周日的预订取消收取全部费用的25%作为违约金
+# BadmintonCharging 作业运行说明
+代码说明：题目的设计基于可扩展的架构进行设计，可扩展的方向包括：足球场、篮球场等预订的订单管理。基本满足了开放封闭原则。
+涉及的类及其功能包括：
+	基类：order.Order, 用于对球场的预订订单和取消订单进行描述
+	子类：order.badminton.BadmintonOrder， 用于对羽毛球球场预订订单和取消订单进行描述
+	基类：order.ChargeStandards，用于对球场的收费情况进行描述
+	子类：order.badminton.BadmintonChargeStandards，用于对羽毛球球场的收费情况进行描述
+	BadmintonOrderManager采用组合模式设计思想，组合的类包括:BadmintonOrderInput,BadmintonChargeStandards以及Debuger。
+	其中，BadmintonOrderInput处理订单的输入，BadmintonChargeStandards负责订单收费的计算，Debuger负责程序的打印输出以及日志记录。
+	Debuger设置了日志的开关功能，可根据配置来打开或关闭debug信息。
 
-由于手头还有其他工作，小明希望借助计算机程序来自动化处理预订及取消预订的事务，
-并且希望程序能够打印出场馆的收入汇总情况。
+数据结构说明：
+	BadmintonChargeStandards中的HashMap<String, HashSet<String>> badmintonPlacesResources,用来对四块羽毛球球场资源进行管理。
+	其中，内部的HashSet<String>>用来对具体某一块球场（例如A球场）的预约时间进行管理，其时间管理的粒度为1h。
+	eg, 2016-08-01:20 代表 2016年8月1日20点时间已被预约。
+	
+测试程序见：test.Client.java
+	支持两种测试方式：
+	1. 从文件读取测试用例
+		public static void testBadmintonChargingFromInputFile(String fileName);
+	2. 从标准输入读取测试用例
+		public static void testBadmintonChargingFromStandardInput();
+
+
+
+
